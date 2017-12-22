@@ -1,3 +1,49 @@
-<p>
-  signup works!
-</p>
+<form class="form-horizontal" [formGroup]="signupForm" (ngSubmit)="submit()">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="firstname">First name:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="firstname"
+        formControlName="firstname">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="lastname">Last name:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="lastname"
+        formControlName="lastname">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="email">Email address:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="email"
+        formControlName="username">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="password">Password:</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="password"
+        formControlName="password">
+      <app-validate-message [control]="signupForm.controls.password" 
+        errorCode="WeakPassword"></app-validate-message>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="confirmPassword">Confirm password:</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="confirmPassword"
+        formControlName="confirmPassword">
+      <app-validate-message [group]="signupForm" 
+        errorCode="MatchPassword"></app-validate-message>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary"
+        [disabled]="signupForm.invalid || isSubmitted">
+        {{ isSubmitted ? 'Signing Up' : 'Sign Up' }}
+      </button>
+    </div>
+  </div>
+</form>

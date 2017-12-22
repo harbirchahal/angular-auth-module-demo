@@ -12,9 +12,11 @@ export class AuthenticationService {
   }
 
   public signupUser(model: SignupModel) {
+    console.log('AuthService.signupUser', model);
   }
 
   public loginUser(model: LoginModel) {
+    console.log('AuthService.loginUser', model);
   }
 
   public logoutUser() {
