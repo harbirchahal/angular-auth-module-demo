@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 import { LoginModel } from './login/login.model';
 import { SignupModel } from './signup/signup.model';
+import { ForgotPasswordModel } from './forgot-password/forgot-password.model';
+import { ResetPasswordModel } from './reset-password/reset-password.model';
 
 @Injectable()
 export class AuthenticationService {
@@ -29,6 +33,19 @@ export class AuthenticationService {
 
   public isAuthenticated() {
     return (this.token ?  true : false);
+  }
+
+  public forgotPassword(model: ForgotPasswordModel) {
+    console.log('AuthService.forgotPassword', model);
+  }
+
+  public resetPassword(model: ResetPasswordModel) {
+    console.log('AuthService.resetPassword', model);
+  }
+
+  public validateRecoveryToken(token: string): Observable<boolean> {
+    console.log('AuthService.validateRecoveryToken', token);
+    return Observable.of(Math.random() >= 0.5);
   }
 
 }
