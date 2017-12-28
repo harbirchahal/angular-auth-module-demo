@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
 
 import { AuthenticationService } from '../auth.service';
 import { ValidationService } from '../../shared/validation/validation.service';
@@ -23,12 +25,10 @@ export class ResetPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      const token = params['token'];
-      this.authService.validateRecoveryToken(token).subscribe((validity: boolean) => {
-        this.tokenValid = validity;
-      });
-    });
+    this.route.params
+      .map((params: Params) => params['token'])
+      .switchMap((token: string) => this.authService.validateRecoveryToken(token))
+      .subscribe((validity: boolean) => this.tokenValid = validity);
 
     this.resetPwdForm = this.formBuilder.group({
       password: new FormControl('', [
