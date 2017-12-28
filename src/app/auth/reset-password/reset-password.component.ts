@@ -28,17 +28,19 @@ export class ResetPasswordComponent implements OnInit {
     this.route.params
       .map((params: Params) => params['token'])
       .switchMap((token: string) => this.authService.validateRecoveryToken(token))
-      .subscribe((validity: boolean) => this.tokenValid = validity);
-
-    this.resetPwdForm = this.formBuilder.group({
-      password: new FormControl('', [
-        Validators.required,
-        ValidationService.checkPasswordStrength
-      ]),
-      confirmPassword: new FormControl('', Validators.required)
-    }, {
-      validator: ValidationService.matchPasswordAndConfirmPassword
-    });
+      .subscribe((validity: boolean) => {
+        this.tokenValid = validity;
+        if (!this.tokenValid) { return; }
+        this.resetPwdForm = this.formBuilder.group({
+          password: new FormControl('', [
+            Validators.required,
+            ValidationService.checkPasswordStrength
+          ]),
+          confirmPassword: new FormControl('', Validators.required)
+        }, {
+          validator: ValidationService.matchPasswordAndConfirmPassword
+        });
+      });
   }
 
   submit() {
