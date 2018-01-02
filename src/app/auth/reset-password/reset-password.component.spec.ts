@@ -99,4 +99,44 @@ describe('Component: ResetPassword', () => {
     expect(form.valid).toBe(true);
   }));
 
+  it('should error for weak password', async(() => {
+    spyOn(authService, 'validateRecoveryToken').and.returnValue(Observable.of(true));
+    component.ngOnInit();
+    const form = component.resetPwdForm;
+    const control = form.controls.password;
+    form.patchValue({ password: '.' });
+    expect(control.errors['WeakPassword']).toBe(true);
+  }));
+
+  it('should accept strong password', async(() => {
+    spyOn(authService, 'validateRecoveryToken').and.returnValue(Observable.of(true));
+    component.ngOnInit();
+    const form = component.resetPwdForm;
+    const control = form.controls.password;
+    form.patchValue({ password: 'P@ssword' });
+    expect(control.errors).toBeNull();
+  }));
+
+  it('should error if password and confirm password does not match', async(() => {
+    spyOn(authService, 'validateRecoveryToken').and.returnValue(Observable.of(true));
+    component.ngOnInit();
+    const form = component.resetPwdForm;
+    form.setValue({
+      password: 'P@ssword',
+      confirmPassword: '.'
+    });
+    expect(form.errors['MatchPassword']).toBe(true);
+  }));
+
+  it('should not error for matching password and confirm password', async(() => {
+    spyOn(authService, 'validateRecoveryToken').and.returnValue(Observable.of(true));
+    component.ngOnInit();
+    const form = component.resetPwdForm;
+    form.setValue({
+      password: 'P@ssword',
+      confirmPassword: 'P@ssword'
+    });
+    expect(form.errors).toBeNull();
+  }));
+
 });
