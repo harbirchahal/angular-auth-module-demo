@@ -12,7 +12,6 @@ export class AuthenticationService {
   private token: string;
 
   constructor() {
-    this.token = 'auth_token';
   }
 
   public signupUser(model: SignupModel) {

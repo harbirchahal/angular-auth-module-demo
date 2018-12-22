@@ -1,27 +1,25 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SignupComponent,
-  LoginComponent,
-  ForgotPasswordComponent,
-  ResetPasswordComponent
-} from './index';
-import { AuthRouting } from './auth-routing.module';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../shared';
+import { LoginComponent } from './login';
+import { SignupComponent } from './signup';
+import { ForgotPasswordComponent } from './forgot-password';
+import { ResetPasswordComponent } from './reset-password';
 
 @NgModule({
   imports: [
+    RouterModule,
     ReactiveFormsModule,
-    SharedModule,
-    AuthRouting,
+    SharedModule
   ],
   exports: [],
   declarations: [
     SignupComponent,
     LoginComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent,
+    ResetPasswordComponent
   ],
   providers: [],
 })

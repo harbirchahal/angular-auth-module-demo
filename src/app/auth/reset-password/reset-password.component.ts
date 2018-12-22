@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 
 import { AuthenticationService } from '../auth.service';
-import { ValidationService } from '../../shared/validation/validation.service';
+import { ValidationService } from '../../shared/validation';
 
 @Component({
   selector: 'app-reset-password',
