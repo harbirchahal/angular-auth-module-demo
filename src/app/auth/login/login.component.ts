@@ -22,6 +22,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initForm();
+  }
+  
+  initForm() {
     this.loginForm = this.formBuilder.group({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
@@ -30,8 +34,13 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.isSubmitted = true;
-    this.authService.loginUser(this.loginForm.value);
-    setTimeout(() => this.router.navigate(['home']), 1000);
+    const success = this.authService.loginUser(this.loginForm.value);
+    if (success) {
+      setTimeout(() => this.router.navigateByUrl('/home'), 250);
+    } else {
+      this.isSubmitted = false;
+      this.loginForm.setErrors({ authFail: true });
+    }
   }
 
 }

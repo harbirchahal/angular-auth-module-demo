@@ -21,6 +21,10 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.initForm();
+  }
+
+  initForm() {
     this.signupForm = this.formBuilder.group({
       firstname: new FormControl('', Validators.required),
       lastname: new FormControl('', Validators.required),
@@ -41,7 +45,7 @@ export class SignupComponent implements OnInit {
   submit() {
     this.isSubmitted = true;
     this.authService.signupUser(this.signupForm.value);
-    setTimeout(() => this.router.navigate(['home']), 1000);
+    setTimeout(() => this.router.navigateByUrl('/home'), 250);
   }
 
 }

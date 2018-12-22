@@ -2,36 +2,59 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-import { LoginModel } from './login/login.model';
-import { SignupModel } from './signup/signup.model';
-import { ForgotPasswordModel } from './forgot-password/forgot-password.model';
-import { ResetPasswordModel } from './reset-password/reset-password.model';
+import { LoginModel } from './login';
+import { SignupModel } from './signup';
+import { ForgotPasswordModel } from './forgot-password';
+import { ResetPasswordModel } from './reset-password';
 
 @Injectable()
 export class AuthenticationService {
-  private token: string;
+  private token = 'fake-auth-token';
+
+  get DB(): SignupModel[] {
+    return JSON.parse(localStorage.getItem('users')) || [];
+  }
 
   constructor() {
   }
 
   public signupUser(model: SignupModel) {
-    console.log('AuthService.signupUser', model);
+    // Store
+    const users = this.DB;
+    users.push(model);
+    localStorage.setItem('users', JSON.stringify(users));
+    // Session
+    sessionStorage.setItem('user', JSON.stringify(model));
+    // Success
+    return true;
   }
 
   public loginUser(model: LoginModel) {
-    console.log('AuthService.loginUser', model);
+    const user = this.DB.find(u => {
+      return u.username === model.username && u.password === model.password
+    });
+    if (user) {
+      sessionStorage.setItem('user', JSON.stringify(user));
+      return true;
+    }
+    return false;
   }
 
   public logoutUser() {
-    this.token = null;
+    sessionStorage.clear();
+    return true;
   }
 
   public getToken() {
     return this.token;
   }
 
+  public getLoggedIn() {
+    return JSON.parse(sessionStorage.getItem('user'));
+  }
+
   public isAuthenticated() {
-    return (this.token ?  true : false);
+    return !!this.getLoggedIn();
   }
 
   public forgotPassword(model: ForgotPasswordModel) {
