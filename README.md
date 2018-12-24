@@ -1,4 +1,4 @@
-# Angular Login and Registration Demo
+# Angular Login and Registration Example
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.1.
 
